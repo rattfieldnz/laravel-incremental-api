@@ -9,7 +9,11 @@ class LessonsController extends \BaseController {
 	 */
 	public function index()
 	{
-		return Lesson::all();
+		$lessons = Lesson::all();
+
+		return Response::json([
+			'data' => $lessons->toArray()
+		], 200);
 	}
 
 
@@ -43,7 +47,20 @@ class LessonsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		$lesson = Lesson::find($id);
+
+		if(!$lesson)
+		{
+			return Response::json([
+				'error' => [
+					'message' => 'Lesson does not exist'
+				]
+			], 404);
+		}
+
+		return Response::json([
+			'data' => $lesson->toArray()
+		], 200);
 	}
 
 
