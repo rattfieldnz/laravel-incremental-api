@@ -9,11 +9,13 @@
 class ApiController extends BaseController{
 
     /**
-     * @var int
+     * @var int Status Code.
      */
     protected $statusCode = 200;
 
     /**
+     * Getter method to return stored status code.
+     *
      * @return mixed
      */
     public function getStatusCode()
@@ -22,6 +24,10 @@ class ApiController extends BaseController{
     }
 
     /**
+     * Setter method to set status code.
+     * It is returning current object
+     * for chaining purposes.
+     *
      * @param mixed $statusCode
      * @return current object.
      */
@@ -33,6 +39,8 @@ class ApiController extends BaseController{
     }
 
     /**
+     * Function to return an unauthorized response.
+     *
      * @param string $message
      * @return mixed
      */
@@ -42,6 +50,7 @@ class ApiController extends BaseController{
     }
 
     /**
+     * Function to return forbidden error response.
      * @param string $message
      * @return mixed
      */
@@ -51,6 +60,8 @@ class ApiController extends BaseController{
     }
 
     /**
+     * Function to return a Not Found response.
+     *
      * @param string $message
      * @return mixed
      */
@@ -60,6 +71,8 @@ class ApiController extends BaseController{
     }
 
     /**
+     * Function to return an internal error response.
+     *
      * @param string $message
      * @return mixed
      */
