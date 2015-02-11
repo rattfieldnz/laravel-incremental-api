@@ -6,6 +6,11 @@
  * Time: 21:20
  */
 
+use Illuminate\Http\Response as IlluminateResponse;
+
+/**
+ * Class ApiController
+ */
 class ApiController extends BaseController{
 
     /**
@@ -46,7 +51,7 @@ class ApiController extends BaseController{
      */
     public function respondUnauthorizedError($message = 'Unauthorized!')
     {
-        return $this->setStatusCode(401)->respondWithError($message);
+        return $this->setStatusCode(IlluminateResponse::HTTP_UNAUTHORIZED)->respondWithError($message);
     }
 
     /**
@@ -56,7 +61,7 @@ class ApiController extends BaseController{
      */
     public function respondForbiddenError($message = 'Forbidden!')
     {
-        return $this->setStatusCode(403)->respondWithError($message);
+        return $this->setStatusCode(IlluminateResponse::HTTP_FORBIDDEN)->respondWithError($message);
     }
 
     /**
@@ -67,7 +72,7 @@ class ApiController extends BaseController{
      */
     public function respondNotFound($message = 'Not Found')
     {
-        return $this->setStatusCode(404)->respondWithError($message);
+        return $this->setStatusCode(IlluminateResponse::HTTP_NOT_FOUND)->respondWithError($message);
     }
 
     /**
@@ -78,29 +83,38 @@ class ApiController extends BaseController{
      */
     public function respondInternalError($message = 'Internal Error!')
     {
-        return $this->setStatusCode(500)->respondWithError($message);
+        return $this->setStatusCode(IlluminateResponse::HTTP_INTERNAL_SERVER_ERROR)->respondWithError($message);
     }
 
+
     /**
+     * Function to return a service unavailable response.
+     *
      * @param string $message
      * @return mixed
      */
     public function respondServiceUnavailable($message = "Service Unavailable!")
     {
-        return $this->setStatusCode(503)->respondWithError($message);
+        return $this->setStatusCode(IlluminateResponse::HTTP_SERVICE_UNAVAILABLE)->respondWithError($message);
     }
 
+
     /**
-     * @param $data
-     * @param array $headers
-     * @return mixed
+     * Function to return a generic response.
+     *
+     * @param $data Data to be used in response.
+     * @param array $headers Headers to b used in response.
+     * @return mixed Return the response.
      */
     public function respond($data, $headers = [])
     {
         return Response::json($data, $this->getStatusCode(), $headers);
     }
 
+
     /**
+     * Function to return an error response.
+     *
      * @param $message
      * @return mixed
      */
@@ -112,5 +126,31 @@ class ApiController extends BaseController{
                 'status_code' => $this->getStatusCode()
             ]
         ]);
+    }
+
+
+    /**
+     * @param $message
+     * @return mixed
+     */
+    protected function respondCreated($message)
+    {
+        return $this->setStatusCode(IlluminateResponse::HTTP_CREATED)
+            ->respond([
+                'message' => $message
+            ]);
+    }
+
+
+    /**
+     * @param $message
+     * @return mixed
+     */
+    protected function respondUnprocessableEntity($message)
+    {
+        return $this->setStatusCode(IlluminateResponse::HTTP_UNPROCESSABLE_ENTITY)
+            ->respond([
+                'message' => $message
+            ]);
     }
 }
