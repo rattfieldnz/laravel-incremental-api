@@ -8,7 +8,7 @@ class Lesson extends Eloquent {
     /**
      * @var array
      */
-    protected $fillable = ['title', 'body'];
+    protected $fillable = ['title', 'body', 'some_bool'];
 
     /**
      * @return mixed
