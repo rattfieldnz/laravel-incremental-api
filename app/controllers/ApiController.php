@@ -7,6 +7,7 @@
  */
 
 use Illuminate\Http\Response as IlluminateResponse;
+use Illuminate\Pagination\Paginator;
 
 /**
  * Class ApiController
@@ -152,5 +153,25 @@ class ApiController extends BaseController{
             ->respond([
                 'message' => $message
             ]);
+    }
+
+    /**
+     * @param Paginator $lessons
+     * @param $data
+     * @return mixed
+     */
+    protected function respondWithPagination(Paginator $lessons, $data)
+    {
+
+        $data = array_merge($data, [
+            'paginator' => [
+                'total_count' => $lessons->getTotal(),
+                'total_pages' => ceil($lessons->getTotal() / $lessons->getPerPage()),
+                'current_page' => $lessons->getCurrentPage(),
+                'limit' => $lessons->getPerPage()
+            ]
+        ]);
+
+        return $this->respond($data);
     }
 }
