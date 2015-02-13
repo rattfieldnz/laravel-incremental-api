@@ -15,11 +15,6 @@ abstract class ApiTester extends TestCase {
      */
     protected $fake;
 
-    /**
-     * @var int
-     */
-    protected $times = 1;
-
     function __construct()
     {
         $this->fake = Faker::create();
@@ -52,24 +47,16 @@ abstract class ApiTester extends TestCase {
         }
     }
 
-    /**
-     * @param $count
-     * @return $this
-     */
-    protected function times($count)
-    {
-        $this->times = $count;
-
-        return $this;
-    }
 
     /**
      * @param $uri
+     * @param string $method
+     * @param array $parameters
      * @return mixed
      */
-    protected function getJson($uri)
+    protected function getJson($uri, $method = 'GET', $parameters = [])
     {
-        return json_decode($this->call('GET', $uri)->getContent());
+        return json_decode($this->call($method, $uri, $parameters)->getContent());
     }
 
     /**
@@ -83,28 +70,6 @@ abstract class ApiTester extends TestCase {
         foreach ($args as $attribute) {
             $this->assertObjectHasAttribute($attribute, $object);
         }
-    }
-
-    /**
-     * @param $type
-     * @param array $fields
-     */
-    protected function make($type, array $fields = [])
-    {
-        while($this->times--)
-        {
-            $stub = array_merge($this->getStub(), $fields);
-            $type::create($stub);
-        }
-    }
-
-
-    /**
-     *
-     */
-    protected function getStub()
-    {
-        throw new BadMethodCallException('Create your own getStub method to declare your fields.');
     }
 
 
